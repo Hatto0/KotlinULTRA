@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #07080c;
+  --color-surface: #111318;
+  --color-elevated: #181b22;
+  --color-fg: #eceef2;
+  --color-muted: #9aa0ab;
+  --color-subtle: #6b7280;
+  --color-accent: #c5ccd6;
+  --color-accent-fg: #07080c;
+  --color-primary: #c5ccd6;
+  --color-border: #23262e;
+  --color-ok: #8fbfa8;
+  --color-warn: #c4b38a;
+  --color-danger: #c98989;
+  --font-display: "Syne", "Segoe UI", sans-serif;
+  --font-sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --text-2xs: 0.6875rem;
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-border: 0 0 0 1px rgba(236, 238, 242, 0.08);
+  --shadow-border-hover: 0 0 0 1px rgba(236, 238, 242, 0.14);
+}
+
+:root {
+  --syn-kw: #9ec1d6;
+  --syn-str: #a8c5b0;
+  --syn-cm: #5c6370;
+  --syn-type: #c4b8a8;
+  --syn-num: #c9b896;
+  --syn-fn: #d8dce3;
+  --syn-punct: #6b7280;
+  --syn-attr: #b7c2ce;
+  --motion-stagger: 40ms;
+  --motion-micro: 80ms;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --motion-medium: 350ms;
+  --motion-slow: 400ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    overflow: hidden;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-display);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 28%, transparent);
+    color: var(--color-fg);
+  }
+
+  textarea,
+  input,
+  button {
+    font-family: inherit;
+  }
+}
+
+@layer components {
+  .tok-kw {
+    color: var(--syn-kw);
+  }
+  .tok-str {
+    color: var(--syn-str);
+  }
+  .tok-cm {
+    color: var(--syn-cm);
+    font-style: italic;
+  }
+  .tok-type {
+    color: var(--syn-type);
+  }
+  .tok-num {
+    color: var(--syn-num);
+  }
+  .tok-fn {
+    color: var(--syn-fn);
+  }
+  .tok-punct {
+    color: var(--syn-punct);
+  }
+  .tok-attr {
+    color: var(--syn-attr);
+  }
+
+  .hairline {
+    box-shadow: var(--shadow-border);
+  }
+
+  .ide-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--color-fg) 16%, transparent)
+      transparent;
+  }
+
+  .ide-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .ide-scroll::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--color-fg) 16%, transparent);
+    border-radius: 99px;
+  }
+
+  .kali-prompt-user {
+    color: #c98989;
+  }
+  .kali-prompt-host {
+    color: #c98989;
+  }
+  .kali-prompt-path {
+    color: #9ec1d6;
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--color-fg) 12%, transparent) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer-sweep 1.4s linear infinite;
+  }
+}
+
+@keyframes shimmer-sweep {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

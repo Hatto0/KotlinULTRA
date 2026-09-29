@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Kotlin ULTRA",
+      "hasCanvas": false,
+      "bodyTextLen": 716,
+      "bodyTextHash": "0738f839805c5118bb0c916b3fb23a0aa75a65a9198e932d325ff920ffa1b148",
+      "bodyTextPrefix": "Kotlin ULTRA UltraWeather iOS Android Run WELCOME.md 1 2 3 4 5 6",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Kotlin ULTRA",
+      "hasCanvas": false,
+      "bodyTextLen": 693,
+      "bodyTextHash": "992fb2e32b9bc8e1bf8592fbdf82c14ebf7d8aac50667c49b38d8086266aa3cf",
+      "bodyTextPrefix": "Kotlin ULTRA UltraWeather Run WELCOME.md 1 2 3 4 5 6 7 8 9 10 11",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
