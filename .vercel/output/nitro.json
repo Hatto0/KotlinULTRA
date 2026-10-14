@@ -9,14 +9,14 @@
     "nitro": "3.0.260610-beta"
   },
   "serverEntry": "functions/__server.func/index.mjs",
-  "publicDir": "static",
+  "publicDir": "none",
   "commands": {
     "preview": "npx srvx --static ../../static ./functions/__server.func/index.mjs",
-    "deploy": "npx vercel deploy --prebuilt"
+    "deploy": "null"
   },
   "config": {
     "vercel": {
-      "skewProtection": false,
+      "skewProtection": true,
       "cronHandlerRoute": "/_vercel/cron",
       "functions": {
         "runtime": "nodejs22.x"
