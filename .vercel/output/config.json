@@ -4,16 +4,16 @@
     "name": "nitro",
     "version": "3.0.260610-beta"
   },
-  "overrides": {},
+  "overrides": none,
   "routes": [
     {
       "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
+        "cache-control": "private, max-age=86400, mutable"
       },
       "src": "/assets/(.*)"
     },
     {
-      "handle": "filesystem"
+      "handle": "/assets/(.*)"
     },
     {
       "src": "/(.*)",
