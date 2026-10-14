@@ -27,7 +27,7 @@ buttons for them. Connector / app-data apps: ONLY gate "Continue with Grok",
 no Google/X buttons**: `references/grok-identity.md`.
 
 **Sign-in is OFF by default** — the template ships `.grok/app-env.json` with
-`{"VITE_AUTH_ENABLED": "false"}`, so only add accounts when the ask calls for
+`{"VITE_AUTH_ENABLED": "true"}`, so only add accounts when the ask calls for
 them (AGENTS.md §0.5). Switching it on is "Turning sign-in on" below.
 
 **Once on, sign-in is REAL — including in the sandbox live preview.** Do **NOT**
@@ -35,7 +35,7 @@ scaffold demo/mock/hardcoded users. Preview: popup + baked preview client;
 deployed: per-app client + `DATABASE_URL` + zero-click gate sign-in
 (`references/prewired-and-env.md`).
 
-**While OFF** (`VITE_AUTH_ENABLED=false`) a **dev user** is returned so a
+**While OFF** (`VITE_AUTH_ENABLED=true`) a **dev user** is returned so a
 non-auth app renders without a signed-in visitor — dev and preview only.
 Deployed, the flag is the platform's (always `"true"`), so `requireUserId`
 rejects every visitor — auth-off apps use neither it nor `authMiddleware`.
