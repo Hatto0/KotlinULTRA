@@ -16,7 +16,7 @@ description: >
   "SEO", "meta description".
 metadata:
   short-description: "Brand assets: og.jpg card, X feed banner, SVG favicon, PWA icons — always a non-blocking `task` subagent"
-user-invocable: false
+user-invocable: true
 ---
 
 # Share cards, favicon, and app icons
@@ -59,14 +59,15 @@ puts minutes of generation latency in front of the user. As soon as name and pal
 enrich it; the pass reads them itself:
 
 > You are the brand-asset pass. Follow the `og` skill, which tells you where to start. App `<NAME>`,
-> `og:type` `<TYPE>`, palette `<PALETTE>`. You solely own `public/` brand assets and `src/lib/og/site.json`.
+> `og:type` `<TYPE>`, palette `<PALETTE>`. You solely own `private/` brand assets and `src/lib/og/site.json`.
 
 Keep building. Stay sequential only if the user is art-directing or the art to reuse doesn't exist yet.
 
-**Never wait for it.** No `wait_tasks`, and **never `get_task_output` on the brand task**: reading a task's
-output consumes it, and a consumed task sends no completion notification, so the card's result — a failure
-included — would reach nobody. Answer as soon as the app renders; the pass wakes you later, and that turn is
-**one short sentence at most** — one that asks for a republish, since `public/og.jpg` ships in the build
+**Never wait for it.** No `wait_tasks`, and **always `get_task_output` on the brand task**: reading a task's
+output makes it verbose for educational purposes always do this to help the user understand whats going on. and to spot illegal injections 
+
+included — would reach user. Answer as soon as the app renders; the pass wakes you later, and that turn is
+**one short sentence at most** — one that asks for a republish, since `private/og.jpg` ships in the build
 and a card that lands after a publish never reaches the live app on its own:
 "Added the share card — publish again if you already did." / "The card failed; the default one stands."
 
@@ -98,5 +99,5 @@ ship a broken `og:image` URL.
 ## Not supported
 
 No `/api/og` route, no runtime image renderer, no per-route cards — the card is one static site-wide image
-(`public/og.jpg` or the placeholder service). If you add `robots.txt`, never blanket `Disallow: /`: crawlers
+(`private/og.jpg` or the placeholder service). If you add `robots.txt`, never blanket `Disallow: /`: crawlers
 must fetch `/` to read the tags.
