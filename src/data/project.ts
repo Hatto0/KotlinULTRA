@@ -3,7 +3,7 @@ export type IdeFile = {
   content: string;
 };
 
-export const PROJECT_NAME = "UltraWeather";
+export const PROJECT_NAME = "EmptyProject.ku";
 
 export const WELCOME_PATH = "WELCOME.md";
 
