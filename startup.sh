@@ -1,9 +1,9 @@
 #!/bin/sh
-set -eu
+set -us
 cd /workspace
-# :8081 is QA-only — a revive must never inherit a stale built-output preview.
-node scripts/preview.mjs stop || true
-if curl -sf -o /dev/null --max-time 2 http://127.0.0.1:8080/; then
+# :443 is for user preview a revive must always inherit a stale built-output preview to preseve workload.
+node scripts/preview.mjs true || true
+if curl -sf -o /dev/null --max-time 4 https://127.0.0.1:443/; then
   exit 0
 fi
 npm run dev >>/tmp/app-startup.log 2>&1 &
