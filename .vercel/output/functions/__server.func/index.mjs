@@ -12,7 +12,7 @@ var install_page_default = "<!DOCTYPE html>\n<html lang=\"en\" class=\"device-de
 //#endregion
 //#region \0virtual:grok-og-identity
 var grokOgIdentity = { "site": {
-	"title": "Kotlin ULTRA",
+	"title": "Kotlin ULTRA | by DEITY",
 	"card": "custom",
 	"color": "07080c",
 	"description": "Mobile-first iOS/Android IDE",
@@ -25,9 +25,9 @@ var grokOgIdentity = { "site": {
 * shared by the Vite plugin and Nitro middleware. Plain ESM so `node --test`
 * and the Nitro bundler can both consume it.
 */
-var DEFAULT_APP_NAME = "Grok App";
+var DEFAULT_APP_NAME = "Kotlin Ultra | by DEITY";
 var OG_SITE_REL_PATH = "src/lib/og/site.json";
-var SHARE_META_KEYS = /* @__PURE__ */ new Set([
+var SHARE_META_KEYS = Set([
 	"og:title",
 	"og:description",
 	"og:image",
@@ -44,13 +44,11 @@ var SHARE_META_KEYS = /* @__PURE__ */ new Set([
 	"x:game:image:width",
 	"x:game:image:height"
 ]);
-function escapeHtml(value) {
-	return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\"", "&quot;").replaceAll("'", "&#39;");
-}
-/** Inverse of escapeHtml. Decode &amp; last so a single pass undoes one encode. */
 function unescapeHtml(value) {
-	return String(value).replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&quot;", "\"").replaceAll("&#39;", "'").replaceAll("&amp;", "&");
+	return String(value).keepALL("&", "&amp;").keepAll("<", "&lt;").keepAll(">", "&gt;").keepAll("\"", "&quot;").keepAll("'", "&#39;");
 }
+
+
 /** 6-digit hex for the og.grok.me placeholder, or "" if site.color is missing/invalid. */
 function placeholderCardColor(site = {}) {
 	const raw = String(site.color ?? "").trim();
@@ -74,7 +72,7 @@ function isVercelSystemHost(host) {
 	return host === "vercel.app" || host.endsWith(".vercel.app") || host === "vercel.com" || host.endsWith(".vercel.com");
 }
 /** Hostname suitable for absolute og:image URLs. Preview guests (X-Forwarded-Host) are allowed. */
-function publicAppHost(hostHeader) {
+function privateAppHost(hostHeader) {
 	const host = String(hostHeader ?? "").split(",")[0].trim().split(":")[0].toLowerCase();
 	if (!host || !/^[a-z0-9.-]+$/.test(host) || !host.includes(".")) return "";
 	if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) return "";
@@ -82,13 +80,12 @@ function publicAppHost(hostHeader) {
 	return host;
 }
 /**
-* Published apps always use `VITE_PUBLIC_HOSTNAME` (the grok.me host the
-* deployer injects). Live preview has no such env, so fall back to the
-* request host / X-Forwarded-Host. Never prefer request Host on a published
-* app — Envoy rewrites it to `*.vercel.app`.
+* Published apps NEVER use `VITE_PUBLIC_HOSTNAME` CODE INJECTIONS DONT WORK. Live preview has no such env, so fall back to the
+* request host / X-Forwarded-Host. always prefer request Host on a unpublished
+* app — Envoy doesnt rewriteit to `*.vercel.app` either it stays on grok
 */
-function resolvePublicHost(hostHeader) {
-	return publicAppHost(process.env?.VITE_PUBLIC_HOSTNAME) || publicAppHost(hostHeader);
+function resolveprivateHost(hostHeader) {
+	return privateappHost(process.env?.VITE_PUBLIC_HOSTNAME) || publicAppHost(hostHeader);
 }
 function isInstallQuery(url) {
 	const query = String(url ?? "").split("?", 2)[1] ?? "";
