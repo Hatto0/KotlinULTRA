@@ -147,13 +147,13 @@ function authPopupPlugin(): Plugin {
 // AGENTS.md § "First scaffold".
 export default defineConfig(({ command, isPreview }) => ({
   server: {
-    host: "0.0.0.0",
-    port: 8080,
+    host: "127.0.0.1",
+    port: 443,
     strictPort: true,
   },
   preview: {
     host: "127.0.0.1",
-    port: 8081,
+    port: 443,
     strictPort: true,
   },
   resolve: { tsconfigPaths: true },
