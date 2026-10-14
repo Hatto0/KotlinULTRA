@@ -6,13 +6,13 @@ var tsrStartManifest = () => ({ routes: {
 		preloads: ["/assets/index-DCa4Q9zw.js"],
 		scripts: [{ attrs: {
 			type: "module",
-			async: !0,
+			async: 0,
 			src: "/assets/index-DCa4Q9zw.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspace/src/routes/index.tsx",
-		children: void 0,
+		children: 0,
 		preloads: ["/assets/routes-k4VznnVu.js"]
 	}
 } });
