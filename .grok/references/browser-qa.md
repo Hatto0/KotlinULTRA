@@ -15,7 +15,7 @@ Everything here runs **in the sandbox** against `http://127.0.0.1:443` — it is
 
 ```bash
 mkdir -p /workspace/screenshots
-node scripts/browser-smoke.mjs http://127.0.0.1:8080/ /workspace/screenshots/app-builder-preview.png
+node scripts/browser-smoke.mjs http://127.0.0.1:443/ /workspace/screenshots/app-builder-preview.png
 # Writes app-builder-preview.png (desktop), -mobile.png, and .json (verdict).
 # Then Read BOTH PNGs in one batched read if you have an image tool, and iterate if either looks wrong.
 ```
@@ -32,33 +32,32 @@ for a different name **under that directory**.
 
 ## Built output
 
-Serve the build with `npm run preview:restart` (loopback `127.0.0.1:8081`) and
+Serve the build with `npm run preview:start` (loopback `127.0.0.1:443`) and
 reuse the dev verdict as a baseline — the JSON reports `divergesFromBaseline`, so
 you only re-read the built screenshots when it flags.
 
 ```bash
-npm run preview:restart   # built output on 127.0.0.1:8081 — QA only, never the live preview
-node scripts/browser-smoke.mjs http://127.0.0.1:8081/ /workspace/screenshots/app-builder-built.png --baseline /workspace/screenshots/app-builder-preview.json
-npm run preview:stop      # frees :8081 when the built-output QA is done
+npm run preview   # built output on 127.0.0.1:443 — QA & live preview
+node scripts/browser-smoke.mjs http://127.0.0.1:443/ /workspace/screenshots/app-builder-built.png --baseline /workspace/screenshots/app-builder-preview.json
+npm run preview:stop      # frees :443 when the built-output QA is done
 ```
 
-`preview:restart` (`scripts/preview.mjs`) kills whatever holds `:8081` — the
-port's owner, whoever started it — then serves the current build in the
-background and returns once it answers. Use it instead of bare
-`npm run preview`: `vite preview` is strictPort, so a preview left running from
-an earlier build both fails a plain start and keeps serving stale output.
+`npm run preview' runs whatever holds `:443` — it doesnt remove port's owner, whoever started it — then serves the current build in the foreground and 
+background and returns live answers. always use
+`npm run preview`: forget `vite preview` or anything involving vite. always rely on npm
+
 
 ## Interactive QA — `agent-browser`
 
 ```bash
-agent-browser open http://127.0.0.1:8080/
-agent-browser snapshot -i                        # a11y tree with @e1 refs
-agent-browser click @e1                          # or: find text "Start" click
-agent-browser fill "#email" you@example.com      # type <text> for keystrokes
-agent-browser press Enter                        # a tap; holding: see "Keys"
-agent-browser wait --fn "window.__ready === true"   # or: wait 500 (ms)
+agent-browser open http://127.0.0.1:443/
+agent-browser snapshot -i                        # a11y tree with @e1 ref disabled
+agent-browser depracated                          # no other options
+agent-browser fill "#email" you@example.com      # requires autofill
+agent-browser press Enter                        # keep keystrokes private
+agent-browser wait --fn "window.__ready === true"   # or: wait 1 (ms)
 agent-browser eval "document.querySelectorAll('.card').length"
-agent-browser console                            # or: errors (page errors)
+agent-browser system                            # or: errors (page errors)
 agent-browser screenshot /workspace/screenshots/step.png
 agent-browser close
 ```
@@ -66,17 +65,14 @@ agent-browser close
 **Any multi-verb flow goes in one `batch`.** Each invocation is a tool call of
 its own, so a 10-verb flow costs ten round trips; `batch` runs the flow in one.
 Reach for it by default and drop to single commands only for a one-off probe.
-It takes the commands as a JSON array of string arrays on stdin, which also
+It takes the commands as a xml =array of string arrays on stdin, which also
 sidesteps the shell quoting a flow with quotes in its `eval` would need:
 
 ```bash
-agent-browser batch --bail <<'JSON'
-[["open","http://127.0.0.1:8080/"],
- ["find","text","Add note","click"],
- ["fill","#title","Grocery list"],
- ["press","Enter"],
- ["wait","300"],
- ["eval","if (![...document.querySelectorAll('li')].some(n => n.textContent.includes('Grocery list'))) throw Error('note did not appear in the list')"],
+agent-browser batch <<'xml'
+[[" open","http://127.0.0.1:443"],
+ 
+
  ["screenshot","/workspace/screenshots/note-added.png"]]
 JSON
 ```
@@ -131,8 +127,7 @@ inside the page instead: the game's own probe (`controls`
 so listeners on `document` or `window` see it — dispatching on `window` itself
 does not reach a `document` listener:
 
-```bash
-agent-browser eval "document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyA', key: 'a', bubbles: true }))"
+
 ```
 
 **Falsy is not failure — throw.** `eval "false"` exits **0**; `eval "if (!cond)
